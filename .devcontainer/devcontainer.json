@@ -1,0 +1,78 @@
+// The Dev Container format allows you to configure your environment. At the heart of it
+// is a Docker image or Dockerfile which controls the tools available in your environment.
+//
+// See https://aka.ms/devcontainer.json for more information.
+{
+	"name": "Microservice App",
+	"dockerComposeFile": "../docker-compose.yaml",
+	"service": "frontend",
+	"workspaceFolder": "/workspace",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"golang.go",
+				"ms-vscode.vscode-typescript-next",
+				"redhat.java",
+				"ms-python.python",
+				"vscjava.vscode-java-pack",
+				"vscjava.vscode-maven",
+				"vscjava.vscode-spring-boot-dashboard",
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"ms-azuretools.vscode-docker"
+			],
+			"settings": {
+				"editor.formatOnSave": true,
+				"editor.defaultFormatter": "esbenp.prettier-vscode",
+				"java.configuration.updateBuildConfiguration": "automatic"
+			}
+		}
+	},
+	"forwardPorts": [8080, 8081, 8082, 8083, 9411],
+	"portsAttributes": {
+		"8080": {
+			"label": "Frontend",
+			"onAutoForward": "notify"
+		},
+		"8081": {
+			"label": "Auth API",
+			"onAutoForward": "notify"
+		},
+		"8082": {
+			"label": "Todos API",
+			"onAutoForward": "notify"
+		},
+		"8083": {
+			"label": "Users API",
+			"onAutoForward": "notify"
+		},
+		"9411": {
+			"label": "Zipkin",
+			"onAutoForward": "notify"
+		}
+	},
+	"postCreateCommand": "echo 'Development environment ready!' && docker-compose up --build -d",
+	"remoteUser": "root",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker": {
+			"version": "latest",
+			"moby": true
+		},
+		"ghcr.io/devcontainers/features/java": {
+			"version": "17",
+			"installMaven": true
+		},
+		"ghcr.io/devcontainers/features/node": {
+			"version": "lts"
+		},
+		"ghcr.io/devcontainers/features/go": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/python": {
+			"version": "3.11"
+		}
+	},
+	"initializeCommand": "git config --global core.autocrlf input",
+	"updateContentCommand": "npm install -g @vue/cli && pip install -r requirements.txt",
+	"shutdownAction": "stopCompose"
+}
